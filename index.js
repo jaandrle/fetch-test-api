@@ -2,6 +2,10 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { argv, stdout } from "node:process";
 const tmp= new WeakMap();
 const fetchOriginal= globalThis.fetch;
+let path_root= new URL("..", argv[1]);
+export function setPathRoot(path_root_new){
+	path_root= path_root_new;
+}
 /**
  * Wrapper around native `fetch` printing request and response to console.
  * And saving body response to `response.json` file.
@@ -58,7 +62,7 @@ export function fetchSave({
 	then= res=> res.json(),
 	path= "response.json"
 }= {}){
-	const path_url= new URL(path, import.meta.url);
+	const path_url= new URL(path, path_root);
 	return res=> {
 		let to_log= tmp.get(res);
 		to_log.duration_ms+= Date.now();
@@ -80,7 +84,7 @@ export function fetchSave({
 			});
 	};
 }
-export function readJSONFile(file, root= import.meta.url){
+export function readJSONFile(file, root= path_root){
 	return JSON.parse(readFileSync(new URL(file, root), "utf8"));
 }
 function responseToObject(res, file_out){
