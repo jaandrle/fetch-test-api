@@ -1,6 +1,7 @@
 {
   "name": "fetch-test-api",
   "version": "0.1.0",
+  "homepage": "https://github.com/jaandrle/fetch-test-api",
   "description": "“An alternative” to PostMan/Insomnia/…. Test REST API using script files (and `fetch`).",
   "type": "module",
   "main": "index.js",
