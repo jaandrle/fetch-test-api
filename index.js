@@ -1,24 +1,12 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { argv, stdout } from "node:process";
+import { pathToFileURL } from "node:url";
 const tmp= new WeakMap();
 const fetchOriginal= globalThis.fetch;
-let path_root= new URL("..", argv[1]);
+let path_root= pathToFileURL(argv[1]);
 export function setPathRoot(path_root_new){
 	path_root= path_root_new;
 }
-/**
- * Wrapper around native `fetch` printing request and response to console.
- * And saving body response to `response.json` file.
- *
- *
- * Don’t forget to call {@link fetchSave} after `fetch` call.
- * ```js
- * // by default save json reposonse to `response.json`
- * fetch(url, options)
- * .then(fetchSave());
- * ```
- * @type {typeof fetchOriginal}
- * */
 export const fetch= function(url, { method, headers, body, ...rest_body }= {}){
 	const to_log= {
 		argv: argv,
