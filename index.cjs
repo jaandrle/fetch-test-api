@@ -1,2 +1,2 @@
-const fta= require("./index.js");
+const fta= await import("./index.js");
 exports= module.exports= fta;
