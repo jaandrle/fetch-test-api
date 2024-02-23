@@ -4,6 +4,7 @@
 	"homepage": "https://github.com/jaandrle/fetch-test-api",
 	"description": "“An alternative” to PostMan/Insomnia/…. Test REST API using script files (and `fetch`).",
 	"type": "module",
+	"main": "index.cjs",
 	"module": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
