@@ -1,22 +1,22 @@
 {
-  "name": "fetch-test-api",
-  "version": "0.1.0",
-  "homepage": "https://github.com/jaandrle/fetch-test-api",
-  "description": "“An alternative” to PostMan/Insomnia/…. Test REST API using script files (and `fetch`).",
-  "type": "module",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "api",
-    "rest",
-    "api",
-    "test",
-    "api",
-    "postman",
-    "insomnia"
-  ],
-  "author": "Jan Andrle <andrle.jan@centrum.cz>",
-  "license": "MIT"
+	"name": "fetch-test-api",
+	"version": "0.1.0",
+	"homepage": "https://github.com/jaandrle/fetch-test-api",
+	"description": "“An alternative” to PostMan/Insomnia/…. Test REST API using script files (and `fetch`).",
+	"type": "module",
+	"module": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [
+		"api",
+		"rest",
+		"api",
+		"test",
+		"api",
+		"postman",
+		"insomnia"
+	],
+	"author": "Jan Andrle <andrle.jan@centrum.cz>",
+	"license": "MIT"
 }
