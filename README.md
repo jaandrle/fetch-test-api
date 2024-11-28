@@ -1,9 +1,7 @@
 # Test API using JavaScript (`fetch`)
 Effortlessly manage and execute API requests directly in your JavaScript codebase using
 `fetch`. This library is designed for modular and reusable API development, with centralized
-configurations and a developer-friendly structure. It serves as an alternative to [Huachao/
-vscode-restclient: REST Client Extension for Visual Studio Code](https://github.com/Huachao/vscode-
-restclient).
+configurations and a developer-friendly structure. It serves as an alternative to [Huachao/vscode-restclient: REST Client Extension for Visual Studio Code](https://github.com/Huachao/vscode-restclient).
 
 ## Features
 - Execute API requests directly through JavaScript.
