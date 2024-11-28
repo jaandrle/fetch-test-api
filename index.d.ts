@@ -10,7 +10,7 @@
  * .then(fetchSave());
  * ```
  * */
-export const fetch: typeof fetchOriginal;
+export const fetch: typeof globalThis.fetch;
 /** Set path root against which relative paths will be resolved. By default it is `pathToFileURL(process.argv[1])`. */
 export function setPathRoot(path_root_new: string): void;
 /**
@@ -31,10 +31,7 @@ export function setPathRoot(path_root_new: string): void;
  * }));
  * ```
  * */
-export function fetchSave<T>({
-	then= res=> res.json(),
-	path= "response.json"
-}: {
+export function fetchSave<T>({ then, path }: {
 	/** Function that will be called on response. */
 	then?: (res: Response) => T
 	/** Path to save response to. Defaults to `response.json`. */

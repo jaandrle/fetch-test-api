@@ -1,12 +1,24 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { argv, stdout } from "node:process";
 import { pathToFileURL } from "node:url";
+
+const argvKey= "--FTA-";
 const tmp= new WeakMap();
 const fetchOriginal= globalThis.fetch;
+
 let path_root= pathToFileURL(argv[1]);
 export function setPathRoot(path_root_new){
 	path_root= path_root_new;
 }
+
+function echoCurl({ request: { method= "GET", url, headers, body } }){
+	console.log([
+		`curl -X ${method} '${url}'`,
+		Object.entries(headers).map(([k, v])=> `  - H '${k}: ${v}'`),
+		body && `  -d '${body}'`
+	].filter(Boolean).join("\n"));
+}
+
 export const fetch= function(url, { method, headers, body, ...rest_body }= {}){
 	const to_log= {
 		argv: argv,
@@ -18,6 +30,8 @@ export const fetch= function(url, { method, headers, body, ...rest_body }= {}){
 			body
 		}
 	};
+	if(argv.includes(argvKey+"curl"))
+		return echoCurl(to_log);
 	return fetchOriginal(url, {
 		headers,
 		method,
