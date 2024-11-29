@@ -10,7 +10,7 @@ const echos= {
 		const headers_str= !headers ? "" : JSON.stringify(headers, null, "	")
 			.split("\n")
 			.map(line=> "	"+line)
-			.join("\n	").trim();
+			.join("\n").trim();
 		console.log([
 			`const res= await fetch("${url}", {`,
 			`	method: "${method}",` + (method=== "GET" ? "// optional" : ""),
