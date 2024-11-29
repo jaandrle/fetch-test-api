@@ -1,27 +1,20 @@
 import { readFileSync, writeFileSync } from 'node:fs';
-import { argv, stdout } from "node:process";
+import { argv, exit, stdout } from "node:process";
 import { pathToFileURL } from "node:url";
+import { handleEcho, isNotFTA, registerEcho } from "./src/as.js";
 
-const argvKey= "--FTA-";
-const tmp= new WeakMap();
-const fetchOriginal= globalThis.fetch;
+export { isNotFTA, registerEcho };
 
 let path_root= pathToFileURL(argv[1]);
 export function setPathRoot(path_root_new){
 	path_root= path_root_new;
 }
 
-function echoCurl({ request: { method= "GET", url, headers, body } }){
-	console.log([
-		`curl -X ${method} '${url}'`,
-		Object.entries(headers).map(([k, v])=> `  - H '${k}: ${v}'`),
-		body && `  -d '${body}'`
-	].filter(Boolean).join("\n"));
-}
-
+const tmp= new WeakMap();
+const fetchOriginal= globalThis.fetch;
 export const fetch= function(url, { method, headers, body, ...rest_body }= {}){
 	const to_log= {
-		argv: argv,
+		argv,
 		duration_ms: -Date.now(),
 		request: {
 			method,
@@ -30,8 +23,11 @@ export const fetch= function(url, { method, headers, body, ...rest_body }= {}){
 			body
 		}
 	};
-	if(argv.includes(argvKey+"curl"))
-		return echoCurl(to_log);
+	const echo= handleEcho(argv);
+	if(echo){
+		echo(to_log.request);
+		return exit(0);
+	}
 	return fetchOriginal(url, {
 		headers,
 		method,

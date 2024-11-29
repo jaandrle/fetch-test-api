@@ -41,3 +41,23 @@ export function fetchSave<T>({ then, path }: {
  * Read JSON file. E.g. `readJSONFile("response.json")`.
  * */
 export function readJSONFile(file: string, root?: string | URL): any;
+/**
+ * Check if argument is not `--FTA-*`.
+ * ```JavaScript
+ * process.argv.filter(isNotFTA);
+ * ```
+ * */
+export function isNotFTA(arg: string): boolean;
+
+export type EchoRequest = {
+	/** A string to set request's url. */
+	url: string;
+	/** A BodyInit object or null to set request's body. */
+	body?: string; //BodyInit | null,
+	/** A Headers object, an object literal, or an array of two-item arrays to set request's headers. */
+	headers?: HeadersInit;
+	/** A string to set request's method. */
+	method?: string;
+};
+export type Echo = (request: EchoRequest) => void;
+export function registerEcho(key: string, fn: Echo): void;
