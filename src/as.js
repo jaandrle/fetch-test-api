@@ -2,9 +2,9 @@ const echos= {
 	ascurl({ method= "GET", url, headers, body }){
 		console.log([
 			`curl -X ${method} '${url}'`,
-			...Object.entries(headers).map(([k, v])=> `  - H '${k}: ${v}'`),
+			...Object.entries(headers).map(([k, v])=> `  -H '${k}: ${v}'`),
 			body && `  -d '${body}'`
-		].filter(Boolean).join("\n"));
+		].filter(Boolean).join(" \\\n"));
 	},
 	asfetch({ method= "GET", url, headers, body }){
 		const headers_str= !headers ? "" : JSON.stringify(headers, null, "	")
