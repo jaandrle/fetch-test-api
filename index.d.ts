@@ -1,13 +1,12 @@
 /**
- * Wrapper around native `fetch` printing request and response to console.
- * And saving body response to `response.json` file.
+ * Wrapper around native `fetch` internally cathces request to be printed
+ * with {@link fetchSave} (don’t forget calling it). Or when script is
+ * running with `--FTA-*` arguments are printed out with registered echo
+ * functions (see {@link registerEcho}).
  *
- *
- * Don’t forget to call {@link fetchSave} after `fetch` call.
  * ```js
  * // by default save json reposonse to `response.json`
- * fetch(url, options)
- * .then(fetchSave());
+ * fetch(url, options).then(fetchSave());
  * ```
  * */
 export const fetch: typeof globalThis.fetch;
@@ -60,4 +59,18 @@ export type EchoRequest = {
 	method?: string;
 };
 export type Echo = (request: EchoRequest) => void;
+/**
+ * Change or register echo function for `--FTA-*` arguments.
+ *
+ * ```JavaScript
+ * // api.js
+ * registerEcho("echo", console.log);
+ *
+ * fetch(url, options).then(fetchSave());
+ * ```
+ * ```terminal
+ * ./api.js --FTA-echo
+ * # prints { url, ...options }
+ * ```
+ * */
 export function registerEcho(key: string, fn: Echo): void;

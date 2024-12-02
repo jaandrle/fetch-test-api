@@ -12,7 +12,7 @@ const echos= {
 			.map(line=> "	"+line)
 			.join("\n").trim();
 		console.log([
-			`const res= await fetch("${url}", {`,
+			`const response = await fetch("${url}", {`,
 			`	method: "${method}",` + (method=== "GET" ? "// optional" : ""),
 			headers_str && `	headers: ${headers_str},`,
 			body && `	body: ${body},`,

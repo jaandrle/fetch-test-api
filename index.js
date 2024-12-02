@@ -1,9 +1,10 @@
-import { readFileSync, writeFileSync } from 'node:fs';
+import { writeFileSync } from 'node:fs';
 import { argv, exit, stdout } from "node:process";
 import { pathToFileURL } from "node:url";
 import { handleEcho, isNotFTA, registerEcho } from "./src/as.js";
 
 export { isNotFTA, registerEcho };
+export { readJSONFile } from "./src/utils.js";
 
 let path_root= pathToFileURL(argv[1]);
 export function setPathRoot(path_root_new){
@@ -12,7 +13,7 @@ export function setPathRoot(path_root_new){
 
 const tmp= new WeakMap();
 const fetchOriginal= globalThis.fetch;
-export const fetch= function(url, { method, headers, body, ...rest_body }= {}){
+export const fetch= function(url, { method, headers, body, ...options }= {}){
 	const to_log= {
 		argv,
 		duration_ms: -Date.now(),
@@ -25,37 +26,19 @@ export const fetch= function(url, { method, headers, body, ...rest_body }= {}){
 	};
 	const echo= handleEcho(argv);
 	if(echo){
-		echo(to_log.request);
+		echo(to_log.request, options);
 		return exit(0);
 	}
 	return fetchOriginal(url, {
 		headers,
 		method,
 		body,
-		...rest_body
+		...options
 	}).then(res=> {
 		tmp.set(res, to_log);
 		return res;
 	});
 }
-/**
- * This is helper function for saving {@link fetch} response into the file
- * and printing request and response info it to the console.
- * ```js
- * // by default save json reposonse to `response.json`
- * fetch(url, options)
- * .then(fetchSave());
- * fetch(url, options)
- * .then(fetchSave({ path: "response-my.json" }));
- *
- * // save text response to `response.txt`
- * fetch(url, options)
- * .then(fetchSave({
- * 	then: res=> res.text(),
- * 	path: "response.txt"
- * }));
- * ```
- * */
 export function fetchSave({
 	then= res=> res.json(),
 	path= "response.json"
@@ -81,9 +64,6 @@ export function fetchSave({
 				return body;
 			});
 	};
-}
-export function readJSONFile(file, root= path_root){
-	return JSON.parse(readFileSync(new URL(file, root), "utf8"));
 }
 function responseToObject(res, file_out){
 	return {

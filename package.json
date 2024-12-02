@@ -4,11 +4,11 @@
 	"homepage": "https://github.com/jaandrle/fetch-test-api",
 	"description": "“An alternative” to PostMan/Insomnia/…. Test REST API using script files (and `fetch`).",
 	"type": "module",
-	"main": "index.cjs",
+	"module": "index.js",
 	"exports": {
 		".": {
-			"import": "./index.js",
-			"require": "./index.cjs"
+			"types": "./index.d.ts",
+			"import": "./index.js"
 		}
 	},
 	"scripts": {
@@ -24,7 +24,7 @@
 		"insomnia"
 	],
 	"engines": {
-		"node": ">=17.5"
+		"node": ">=18"
 	},
 	"author": "Jan Andrle <andrle.jan@centrum.cz>",
 	"license": "MIT"
