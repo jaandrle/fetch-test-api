@@ -1,14 +1,16 @@
-import { writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { argv, exit, stdout } from "node:process";
 import { pathToFileURL } from "node:url";
 import { handleEcho, isNotFTA, registerEcho } from "./src/as.js";
 
 export { isNotFTA, registerEcho };
-export { readJSONFile } from "./src/utils.js";
 
 let path_root= pathToFileURL(argv[1]);
 export function setPathRoot(path_root_new){
 	path_root= path_root_new;
+}
+export function readJSONFile(file, root= path_root){
+	return JSON.parse(readFileSync(new URL(file, root), "utf8"));
 }
 
 const tmp= new WeakMap();
