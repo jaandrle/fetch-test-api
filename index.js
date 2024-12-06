@@ -61,7 +61,7 @@ export function fetchSave({
 					is_error= true;
 					body= { name: body.name, message: body.message, stack: body.stack };
 				}
-				if(body instanceof SyntaxError)
+				if(body.name==="SyntaxError")
 					body.rawText= await res.text();
 
 				writeFileSync(path_url, JSON.stringify(body, null, "	"));
