@@ -21,6 +21,7 @@ const echos= {
 	}
 };
 export function registerEcho(key, fn){
+	if(!key.startsWith("as")) throw new Error("The `key` must start with 'as'");
 	echos[key]= fn;
 }
 
@@ -30,9 +31,10 @@ export function isNotFTA(arg){
 }
 export function handleEcho(argv){
 	const { length }= argvKey;
+	const argvKeyStart= argvKey+"as";
 	let echo;
 	for(const arg of argv){
-		if(!arg.startsWith(argvKey)) continue;
+		if(!arg.startsWith(argvKeyStart)) continue;
 
 		const key= arg.slice(length);
 		echo= echos[key];

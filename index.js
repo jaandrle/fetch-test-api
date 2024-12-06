@@ -55,12 +55,15 @@ export function fetchSave({
 		console.log(!stdout.isTTY ? JSON.stringify(to_log, null, "	") : to_log);
 		return then(res)
 			.catch(err=> err)
-			.then(body=> {
+			.then(async body=> {
 				let is_error= false;
 				if(body instanceof Error){
 					is_error= true;
 					body= { name: body.name, message: body.message, stack: body.stack };
 				}
+				if(body instanceof SyntaxError)
+					body.rawText= await res.text();
+
 				writeFileSync(path_url, JSON.stringify(body, null, "	"));
 				if(is_error) throw body;
 				return body;

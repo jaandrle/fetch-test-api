@@ -73,4 +73,4 @@ export type Echo = (request: EchoRequest) => void;
  * # prints { url, ...options }
  * ```
  * */
-export function registerEcho(key: string, fn: Echo): void;
+export function registerEcho(key: `as${string}`, fn: Echo): void;
