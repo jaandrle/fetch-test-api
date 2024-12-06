@@ -43,7 +43,8 @@ export const fetch= function(url, { method, headers, body, ...options }= {}){
 }
 export function fetchSave({
 	then= res=> res.json(),
-	path= "response.json"
+	path= "response.json",
+	exit: exitOnEnd= false,
 }= {}){
 	const path_url= new URL(path, path_root);
 	return res=> {
@@ -67,6 +68,7 @@ export function fetchSave({
 
 				writeFileSync(path_url, JSON.stringify(body, null, "	"));
 				if(is_error) throw body;
+				if(exitOnEnd) exit(0);
 				return body;
 			});
 	};
