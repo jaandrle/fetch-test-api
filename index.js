@@ -47,6 +47,7 @@ export function fetchSave({
 }= {}){
 	const path_url= new URL(path, path_root);
 	return res=> {
+		const res_clone= res.clone();
 		let to_log= tmp.get(res);
 		to_log.duration_ms+= Date.now();
 		to_log= Object.assign(to_log, {
@@ -62,7 +63,7 @@ export function fetchSave({
 					body= { name: body.name, message: body.message, stack: body.stack };
 				}
 				if(body.name==="SyntaxError")
-					body.rawText= await res.text();
+					body.rawText= await res_clone.text();
 
 				writeFileSync(path_url, JSON.stringify(body, null, "	"));
 				if(is_error) throw body;
